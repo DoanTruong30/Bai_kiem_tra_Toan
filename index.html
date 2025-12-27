@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Hệ thống Kiểm tra Toán học</title>
+    
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            options: {
+                ignoreHtmlClass: 'tex2jax_ignore',
+                processHtmlClass: 'tex2jax_process'
+            }
+        };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" id="MathJax-script" async></script>
+
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; max-width: 800px; margin: auto; padding: 20px; background: #f0f2f5; }
+        .container { background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        .question { margin-bottom: 25px; padding: 15px; border: 1px solid #e0e0e0; border-radius: 8px; }
+        .options { list-style: none; padding: 0; }
+        .options li { margin: 10px 0; padding: 8px; border-radius: 4px; transition: background 0.3s; }
+        .options li:hover { background: #f8f9fa; }
+        button { background: #007bff; color: white; padding: 12px 30px; border: none; cursor: pointer; border-radius: 5px; font-size: 16px; width: 100%; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2>Bài Kiểm tra Vectơ & Tọa độ</h2>
+    
+    <div class="info-section">
+        <input type="text" id="username" placeholder="Tên đăng nhập" required>
+        <input type="text" id="class" placeholder="Lớp" required>
+    </div>
+
+    <div id="quiz">
+        <div class="question">
+            <p><strong>Câu 1:</strong> Hai vectơ $\vec{a}$ và $\vec{b}$ được gọi là bằng nhau khi nào? </p>
+            <ul class="options">
+                <li><input type="radio" name="q1" value="A"> A. Cùng phương và cùng độ dài </li>
+                <li><input type="radio" name="q1" value="B"> B. Cùng hướng hoặc ngược hướng, cùng độ dài </li>
+                <li><input type="radio" name="q1" value="C"> C. Có giá song song và cùng hướng </li>
+                <li><input type="radio" name="q1" value="D"> D. Cùng độ dài và cùng hướng </li>
+            </ul>
+        </div>
+
+        <div class="question">
+            <p><strong>Câu 2:</strong> Vectơ có điểm đầu và điểm cuối trùng nhau là: </p>
+            <ul class="options">
+                <li><input type="radio" name="q2" value="A"> A. Vectơ đơn vị </li>
+                <li><input type="radio" name="q2" value="B"> B. Vectơ đối </li>
+                <li><input type="radio" name="q2" value="C"> C. Vectơ-không </li>
+                <li><input type="radio" name="q2" value="D"> D. Vectơ độ dài bằng 1 </li>
+            </ul>
+        </div>
+
+        <div class="question">
+            <p><strong>Câu 3:</strong> Rút gọn: $\vec{AB}+\vec{CD}-\vec{AD}$ </p>
+            <ul class="options">
+                <li><input type="radio" name="q3" value="A"> A. $\vec{BD}$ </li>
+                <li><input type="radio" name="q3" value="B"> B. $\vec{AC}$ </li>
+                <li><input type="radio" name="q3" value="C"> C. $\vec{DA}$ </li>
+                <li><input type="radio" name="q3" value="D"> D. $\vec{CB}$ </li>
+            </ul>
+        </div>
+
+        <div class="question">
+            <p><strong>Câu 4:</strong> I là trung điểm AB, với điểm M bất kỳ: </p>
+            <ul class="options">
+                <li><input type="radio" name="q4" value="A"> A. $\vec{MA}+\vec{MB}=\vec{MI}$ </li>
+                <li><input type="radio" name="q4" value="B"> B. $\vec{MA}+\vec{MB}=\vec{0}$ </li>
+                <li><input type="radio" name="q4" value="C"> C. $\vec{MI}=\frac{1}{2}\vec{AB}$ </li>
+                <li><input type="radio" name="q4" value="D"> D. $\vec{MA}+\vec{MB}=2\vec{MI}$ </li>
+            </ul>
+        </div>
+
+        <div class="question">
+            <p><strong>Câu 5:</strong> Tọa độ của $\vec{u}=5\vec{i}-\frac{3}{2}\vec{j}$ là: [cite: 25, 26]</p>
+            <ul class="options">
+                <li><input type="radio" name="q5" value="A"> A. $(5; 3)$ [cite: 30]</li>
+                <li><input type="radio" name="q5" value="B"> B. $(5; -\frac{3}{2})$ [cite: 32]</li>
+            </ul>
+        </div>
+        
+        </div>
+
+    <button onclick="submitQuiz()">Nộp bài</button>
+</div>
+
+<script>
+    const correctAnswers = { q1: "D", q2: "C", q3: "D", q4: "D", q5: "B" }; // Đáp án dựa trên kiến thức toán học
+
+    function submitQuiz() {
+        const username = document.getElementById('username').value;
+        const className = document.getElementById('class').value;
+        if(!username || !className) return alert("Vui lòng điền thông tin!");
+
+        let correct = 0;
+        let wrong = 0;
+        let studentAnswers = [];
+
+        for(let i=1; i<=5; i++) {
+            const selected = document.querySelector(`input[name="q${i}"]:checked`);
+            const answer = selected ? selected.value : "N/A";
+            studentAnswers.push(answer);
+            if(answer === correctAnswers[`q${i}`]) correct++; else wrong++;
+        }
+
+        const data = {
+            username: username,
+            class: className,
+            correct: correct,
+            wrong: wrong,
+            answers: studentAnswers
+        };
+
+        // Thay URL Google Apps Script của bạn vào đây
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbyvIbN4zdzhCGkgPRwqcLRGGBvd-mj9qdugp1sSR8FvG7emfdZBDKN3CDOLrTztFVQ3GA/exec';
+        
+        fetch(scriptURL, { method: 'POST', body: JSON.stringify(data) })
+        .then(res => {
+            alert(`Bạn đã hoàn thành! Số câu đúng: ${correct}`);
+            location.reload();
+        })
+        .catch(err => console.log(err));
+    }
+</script>
+</body>
+</html>
